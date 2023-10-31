@@ -25,11 +25,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        let grabacion = grabaciones[indexPath.row]
-        cell.textLabel?.text = grabacion.nombre
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "celda", for: indexPath)
+           let grabacion = grabaciones[indexPath.row]
+           if let nombre = grabacion.nombre {
+               let tiempoEnSegundos = Int(grabacion.tiempograbacion)
+               let minutos = tiempoEnSegundos / 60
+               let segundos = tiempoEnSegundos % 60
+               let tiempoFormateado = String(format: "%02d:%02d", minutos, segundos)
+               cell.textLabel?.text = "\(nombre)"
+               cell.detailTextLabel?.text="\(tiempoFormateado)"
+           }
+           return cell
+        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         do{

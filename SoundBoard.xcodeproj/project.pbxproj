@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9396999E2AF1AFA0009BB505 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9396999D2AF1AFA0009BB505 /* TableViewController.swift */; };
 		93D53F432AF1477F003BA24C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D53F422AF1477F003BA24C /* AppDelegate.swift */; };
 		93D53F452AF1477F003BA24C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D53F442AF1477F003BA24C /* SceneDelegate.swift */; };
 		93D53F472AF1477F003BA24C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D53F462AF1477F003BA24C /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9396999D2AF1AFA0009BB505 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		93D53F3F2AF1477F003BA24C /* SoundBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D53F422AF1477F003BA24C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93D53F442AF1477F003BA24C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +46,7 @@
 		93D53F362AF1477F003BA24C = {
 			isa = PBXGroup;
 			children = (
+				9396999D2AF1AFA0009BB505 /* TableViewController.swift */,
 				93D53F412AF1477F003BA24C /* SoundBoard */,
 				93D53F402AF1477F003BA24C /* Products */,
 			);
@@ -145,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93D53F4D2AF1477F003BA24C /* SoundBoard.xcdatamodeld in Sources */,
+				9396999E2AF1AFA0009BB505 /* TableViewController.swift in Sources */,
 				93D53F472AF1477F003BA24C /* ViewController.swift in Sources */,
 				93D53F432AF1477F003BA24C /* AppDelegate.swift in Sources */,
 				93D53F452AF1477F003BA24C /* SceneDelegate.swift in Sources */,

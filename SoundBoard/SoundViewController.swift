@@ -14,32 +14,58 @@ class SoundViewController: UIViewController {
     @IBOutlet weak var reproducirButton: UIButton!
     @IBOutlet weak var nombreTextField: UITextField!
     @IBOutlet weak var agregarButton: UIButton!
+    @IBOutlet weak var contadorLabel: UILabel!
     
+    @IBOutlet weak var volumeSlider: UISlider!
     var grabarAudio:AVAudioRecorder?
     var reproducirAudio : AVAudioPlayer?
     var audioURL : URL?
+    var recordingTimer: Timer?
+    var elapsedTime: TimeInterval = 0.0
+    var duracionEnSegundos = 0
+    
+    @IBAction func volumeChanged(_ sender: Any) {
+        if let reproducirAudio = reproducirAudio {
+            reproducirAudio.volume = (sender as AnyObject).value
+            }
+        
+    }
+    
     
     @IBAction func grabarTapped(_ sender: Any) {
-        if grabarAudio!.isRecording{
-            //detener la grabacion
-            grabarAudio?.stop()
-            //cambiar texto del boton grabar
-            grabarButton.setTitle("GRABAR", for: .normal)
-            reproducirButton.isEnabled = true
-            agregarButton.isEnabled = true
-        }else{
-            //empezar a grabar
-            grabarAudio?.record()
-            //cambia el texto del boton grabar a detener
-            grabarButton.setTitle("DETENER", for: .normal)
-            reproducirButton.isEnabled = false
-        }
+        if grabarAudio!.isRecording {
+                // Detener la grabación
+                grabarAudio?.stop()
+                // Detener el temporizador
+                recordingTimer?.invalidate()
+                recordingTimer = nil
+                // Calcular la duración en segundos
+                duracionEnSegundos = Int(elapsedTime)
+                // Asignar la duración a la entidad Grabacion
+                
+                // Cambiar texto del botón grabar
+                grabarButton.setTitle("GRABAR", for: .normal)
+                reproducirButton.isEnabled = true
+                agregarButton.isEnabled = true
+            } else {
+                // Empezar a grabar
+                grabarAudio?.record()
+                // Iniciar el temporizador
+                recordingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+                    self?.elapsedTime += 1
+                    self?.updateTimeLabel()
+                }
+                // Cambiar el texto del botón grabar a detener
+                grabarButton.setTitle("DETENER", for: .normal)
+                reproducirButton.isEnabled = false
+            }
     }
     @IBAction func reproducirTapped(_ sender: Any) {
         do {
             try reproducirAudio = AVAudioPlayer(contentsOf: audioURL!)
             reproducirAudio!.play()
             print("Reproduciendo")
+            
         }catch{}
     }
     
@@ -48,6 +74,7 @@ class SoundViewController: UIViewController {
         let grabacion = Grabacion(context: context)
         grabacion.nombre = nombreTextField.text
         grabacion.audio  = NSData(contentsOf: audioURL!)! as Data
+        grabacion.tiempograbacion = Int32(duracionEnSegundos)
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         navigationController!.popViewController(animated: true)
     }
@@ -58,6 +85,10 @@ class SoundViewController: UIViewController {
         configurarGrabacion()
         reproducirButton.isEnabled = false
         agregarButton.isEnabled = false
+        // Configurar el rango de valores del UISlider para el volumen
+            volumeSlider.minimumValue = 0.0
+            volumeSlider.maximumValue = 1.0
+            volumeSlider.value = 1.0  // Puedes establecer un valor predeterminado, p. ej., el volumen máximo.
     }
     
     func configurarGrabacion(){
@@ -93,6 +124,17 @@ class SoundViewController: UIViewController {
             print(error)
         }
     }
-    
+    func updateTimeLabel() {
+        let minutes = Int(elapsedTime) / 60
+        let seconds = Int(elapsedTime) % 60
+        contadorLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        recordingTimer?.invalidate()
+        recordingTimer = nil
+    }
+
+
 
 }
